@@ -3,6 +3,7 @@ import React from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { motion } from 'framer-motion';
+import Spline from '@splinetool/react-spline';
 import useAuth from '../hooks/useAuth';
 
 interface LayoutProps {
@@ -18,39 +19,40 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         router.push('/');
     };
 
+    const handleLogin = () => {
+        router.push('/login');
+    };
+
     return (
         <div className="layout">
-            {/* Conditionally Render Login Prompt or Main Layout */}
+            {/* Spline 3D Background Scene */}
+            <div className="spline-background">
+                <Spline scene="https://prod.spline.design/ULn-HvgorBtw2d7z/scene.splinecode" />
+            </div>
+
             {!user ? (
                 <div className="login-prompt">
-                    <h1>Welcome to Classroom Response</h1>
-                    <p>Please log in to access your courses and dashboard.</p>
-                    <Link href="/login">
-                        <b>Log in</b>
-                    </Link>
+                    <h1 className="title">Welcome to Classroom Response</h1>
+                    <p className="subtitle">Please log in to access your courses and dashboard.</p>
+                    <button onClick={handleLogin} className="login-button">Login</button>
                 </div>
             ) : (
                 <>
-                    {/* Main Layout with Header, Sidebar, and Footer */}
                     <header className="header">
                         <div className="logo">
                             <Link href="/">
-                                <motion.a
+                                <motion.span
                                     whileHover={{ scale: 1.1 }}
                                     whileTap={{ scale: 0.95 }}
                                     className="logo-text"
                                 >
                                     Classroom Response
-                                </motion.a>
+                                </motion.span>
                             </Link>
                         </div>
                         <nav className="nav">
-                            <Link href="/">
-                                <a className="nav-link">Home</a>
-                            </Link>
-                            <Link href="/courses">
-                                <a className="nav-link">My Courses</a>
-                            </Link>
+                            <Link href="/" className="nav-link">Home</Link>
+                            <Link href="/courses" className="nav-link">My Courses</Link>
                             <button className="logout-button" onClick={handleLogout}>
                                 Logout
                             </button>
@@ -59,9 +61,9 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 
                     <aside className="sidebar">
                         <ul>
-                            <li><Link href="/"><a>Dashboard</a></Link></li>
-                            <li><Link href="/profile"><a>Profile</a></Link></li>
-                            <li><Link href="/settings"><a>Settings</a></Link></li>
+                            <li><Link href="/">Dashboard</Link></li>
+                            <li><Link href="/profile">Profile</Link></li>
+                            <li><Link href="/settings">Settings</Link></li>
                         </ul>
                     </aside>
 
@@ -81,15 +83,27 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
             {/* Styling */}
             <style jsx>{`
                 .layout {
+                    position: relative;
                     display: flex;
                     flex-direction: column;
                     min-height: 100vh;
-                    background-color: #f3f4f6;
+                    color: #f3f4f6;
+                }
+
+                /* Spline Background Styling */
+                .spline-background {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    z-index: -1;
+                    overflow: hidden;
                 }
 
                 /* Header Styling */
                 .header {
-                    background-color: #1f2937;
+                    background-color: rgba(31, 41, 55, 0.85);
                     color: #fff;
                     padding: 1rem 2rem;
                     display: flex;
@@ -97,39 +111,41 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                     align-items: center;
                     position: sticky;
                     top: 0;
-                    z-index: 1000;
+                    z-index: 1;
                     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
                 }
                 .logo-text {
                     font-size: 1.5rem;
                     font-weight: bold;
-                    color: #fff;
-                    text-decoration: none;
+                    color: #FFD700;
+                    background: linear-gradient(to right, #FF7E5F, #FEB47B);
+                    -webkit-background-clip: text;
+                    -webkit-text-fill-color: transparent;
                 }
                 .nav-link {
                     margin-right: 1.5rem;
-                    color: #fff;
+                    color: #F0F8FF;
                     text-decoration: none;
                     transition: color 0.3s;
                 }
                 .nav-link:hover {
-                    color: #60a5fa;
+                    color: #FF7E5F;
                 }
                 .logout-button {
                     background: none;
                     border: none;
-                    color: #fff;
+                    color: #F0F8FF;
                     cursor: pointer;
                     font-size: 1rem;
                     transition: color 0.3s;
                 }
                 .logout-button:hover {
-                    color: #f87171;
+                    color: #FF7E5F;
                 }
 
                 /* Sidebar Styling */
                 .sidebar {
-                    background-color: #e5e7eb;
+                    background-color: rgba(229, 231, 235, 0.9);
                     width: 200px;
                     padding: 1rem;
                     border-right: 1px solid #d1d5db;
@@ -144,7 +160,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                 .sidebar li a {
                     display: block;
                     padding: 0.75rem;
-                    color: #374151;
+                    color: #4B0082;
                     text-decoration: none;
                     transition: background-color 0.3s;
                 }
@@ -159,31 +175,43 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                     flex-direction: column;
                     align-items: center;
                     justify-content: center;
-                    height: 100vh;
+                    height: 90vh;
                     text-align: center;
                     padding: 2rem;
+                    color: #FFFFFF;
+                    z-index: 1;
                 }
-                .login-prompt h1 {
-                    font-size: 2rem;
+                .title {
+                    font-size: 2.8rem;
+                    font-weight: bold;
+                    background: linear-gradient(to right, #7F00FF, #E100FF);
+                    -webkit-background-clip: text;
+                    -webkit-text-fill-color: transparent;
                     margin-bottom: 1rem;
+                    text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.3);
                 }
-                .login-prompt p {
-                    font-size: 1.1rem;
+                .subtitle {
+                    font-size: 1.2rem;
+                    color: #D3D3E3; /* Light lavender for subtitle text */
                     margin-bottom: 2rem;
+                    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.3);
                 }
                 .login-button {
-                    background-color: #0070f3;
-                    color: white;
-                    padding: 0.75rem 1.5rem;
-                    font-size: 1rem;
-                    font-weight: 600;
+                    background: linear-gradient(135deg, #FF5E62, #FF9966);
+                    color: #fff;
+                    padding: 0.9rem 2rem;
+                    font-size: 1.1rem;
+                    font-weight: 700;
                     border: none;
-                    border-radius: 6px;
+                    border-radius: 12px;
+                    box-shadow: 0 4px 12px rgba(255, 94, 98, 0.4);
                     cursor: pointer;
-                    text-decoration: none;
+                    transition: transform 0.2s, box-shadow 0.2s;
                 }
                 .login-button:hover {
-                    background-color: #005bb5;
+                    transform: translateY(-3px);
+                    box-shadow: 0 6px 15px rgba(255, 94, 98, 0.6);
+                    background: linear-gradient(135deg, #FF9966, #FF5E62);
                 }
 
                 /* Main Content Styling */
@@ -191,23 +219,29 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                     flex-grow: 1;
                     margin-left: 200px;
                     padding: 2rem;
-                    background: linear-gradient(to bottom right, #f3f4f6, #e5e7eb);
+                    background: rgba(243, 244, 246, 0.85);
+                    z-index: 1;
                 }
 
                 /* Footer Styling */
                 .footer {
-                    background-color: #1f2937;
+                    background-color: rgba(31, 41, 55, 0.85);
                     color: #fff;
                     text-align: center;
                     padding: 1rem 0;
+                    font-size: 0.9rem;
+                    position: fixed;
+                    bottom: 0;
+                    width: 100%;
+                    z-index: 1;
                 }
                 .social-icons a {
                     margin: 0 0.5rem;
-                    color: #60a5fa;
+                    color: #FFD700;
                     text-decoration: none;
                 }
                 .social-icons a:hover {
-                    color: #3b82f6;
+                    color: #FF7E5F;
                 }
 
                 /* Responsive Design */
