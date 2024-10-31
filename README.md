@@ -1,4 +1,5 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+## Preview
+![alt text](https://file%2B.vscode-resource.vscode-cdn.net/Users/munish/Desktop/Screenshot%202024-10-30%20at%2021.26.54.png?version%3D1730341649197)
 
 ## Getting Started
 
