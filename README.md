@@ -1,5 +1,5 @@
 ## Preview
-![alt text](https://file%2B.vscode-resource.vscode-cdn.net/Users/munish/Desktop/Screenshot%202024-10-30%20at%2021.26.54.png?version%3D1730341649197)
+![alt text](public/screenshot.png)
 
 ## Getting Started
 
